@@ -2,6 +2,9 @@
 .pad-top {
   margin-top: 15px;
 }
+.pad-Left {
+  margin-left: 15px;
+}
 .listActive {
   background: #007fff;
   border: #007fff;
@@ -9,6 +12,9 @@
 }
 .sliderPadTop {
   margin-top: 35px;
+}
+.has-switch {
+  height: 30px;
 }
 #slider_R {
   width: 100%;
