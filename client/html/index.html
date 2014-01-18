@@ -60,15 +60,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 gridInnerPadLeft-sm">
                     <h2>RGB-Licht</h2>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <input class="slider" type="text" data-slider-min="-20"
-                                   data-slider-max="20" data-slider-step="1"
-                                   data-slider-value="-14" data-slider-selection="after" data-slider-tooltip="hide">
-                        </div>
-                    </div>
+                    <p>
+                        <input value="" data-slider-id="slider_R" class="slider" type="text" data-slider-min="0"
+                               data-slider-max="255" data-slider-step="1"
+                               data-slider-value="128">
+                    </p>
+                    <p class="sliderPadTop">
+                        <input value="" data-slider-id="slider_G" class="slider" type="text" data-slider-min="0"
+                               data-slider-max="255" data-slider-step="1"
+                               data-slider-value="128">
+                    </p>
+                    <p class="sliderPadTop">
+                        <input value="" data-slider-id="slider_B" class="slider" type="text" data-slider-min="0"
+                               data-slider-max="255" data-slider-step="1"
+                               data-slider-value="128">
+                    </p>
+                    <p>
+                        <div id="colorResult" style="height: 30px;"></div>
+                    </p>
                 </div>
                 <div class="col-sm-4">TODO</div>
             </div>
