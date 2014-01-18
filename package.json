@@ -1,0 +1,14 @@
+{
+  "name": "flipdot-dashboard",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Huhn",
+  "license": "MIT",
+  "dependencies": {
+    "express": "~3.4.8"
+  }
+}

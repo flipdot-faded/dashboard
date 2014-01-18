@@ -1,0 +1,25 @@
+// out: ../css/style.css
+
+@import "../../thirdParty/bootstrap/less/variables.less";
+
+.pad-top {
+    margin-top: 15px;
+}
+
+.listActive {
+    background: @brand-primary;
+    border: @brand-primary;
+    color: white;
+}
+
+@media (max-width: @screen-sm-min) {
+    .padLeft-sm {
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: @screen-sm-min) {
+    .padLeft-sm {
+        margin-left: 10px;
+    }
+}
