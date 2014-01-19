@@ -25,15 +25,19 @@ function RadioList(radioEntries) {
     
     self.entries = ko.observableArray(radioEntries);
 
+    var selectionChanged = function () {
+        if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
+            
+        // ensure we're on play mode
+        if(window.viewModel && !viewModel.radioControl.isPlaying()) {
+            viewModel.radioControl.startStop();
+        }
+    };
+
     function makeUniqueSelection(selected) {
         
         if(selected.isSelected()) {
-            if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
-            
-            // ensure we're on play mode
-            if(window.viewModel && !viewModel.radioControl.isPlaying()) {
-                viewModel.radioControl.startStop();
-            }
+            self.selectionChanged();
         } else {
             return;
         }
