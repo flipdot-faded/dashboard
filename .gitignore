@@ -1,2 +1,7 @@
+# cloud9 IDE
+.settings
+.c9revisions
+
+# node related
 bower_components
 node_modules
