@@ -28,21 +28,23 @@ function ColorMixer(defaultR, defaultG, defaultB){
         .on('slide', sliderChangedHandler)
         .data('slider');
         
-    self.R = ko.createObserable(defaultR, function (newValue) {
+    self.R = ko.createObserable(function (newValue) {
         sliderR.setValue(newValue);
         updateColorResult();
     });
     
-    self.G = ko.createObserable(defaultG, function (newValue) {
+    self.G = ko.createObserable(function (newValue) {
         sliderG.setValue(newValue);
         updateColorResult();
     });
     
-    self.B = ko.createObserable(defaultB, function (newValue) {
+    self.B = ko.createObserable(function (newValue) {
         sliderB.setValue(newValue);
         updateColorResult();
     });
     
-    // set the inital state for the colorResult
-    updateColorResult();
+    // set the default values
+    self.R(defaultR);
+    self.G(defaultG);
+    self.B(defaultB);
 }

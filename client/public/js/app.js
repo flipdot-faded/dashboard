@@ -1,9 +1,6 @@
 $(function(){
-    ko.createObserable = function(defaultValue, valueChangedHandler){
-        
-        if(typeof(defaultValue) == 'function') valueChangedHandler = defaultValue;
-        
-        var observable = ko.observable(defaultValue);
+    ko.createObserable = function(valueChangedHandler){
+        var observable = ko.observable();
         observable.subscribe(valueChangedHandler);
         return observable;
     }
@@ -38,41 +35,61 @@ function ColorMixer(defaultR, defaultG, defaultB){
         .on('slide', sliderChangedHandler)
         .data('slider');
         
-    self.R = ko.createObserable(defaultR, function (newValue) {
+    self.R = ko.createObserable(function (newValue) {
         sliderR.setValue(newValue);
         updateColorResult();
     });
     
-    self.G = ko.createObserable(defaultG, function (newValue) {
+    self.G = ko.createObserable(function (newValue) {
         sliderG.setValue(newValue);
         updateColorResult();
     });
     
-    self.B = ko.createObserable(defaultB, function (newValue) {
+    self.B = ko.createObserable(function (newValue) {
         sliderB.setValue(newValue);
         updateColorResult();
     });
     
-    // set the inital state for the colorResult
-    updateColorResult();
+    // set the default values
+    self.R(defaultR);
+    self.G(defaultG);
+    self.B(defaultB);
 }
-$(function(){
-    $('input[type=checkbox]').each(function(){
-        var self = $(this);
-        
-        self.attr("data-on", "success");
-        self.attr("data-on-label", "ein");
-        self.attr("data-off", "danger");
-        self.attr("data-off-label", "aus");
-        self.bootstrapSwitch();
+function Switch(element, initalState) {
+    var self = this;
+    
+    element.attr("data-on", "success");
+    element.attr("data-on-label", "ein");
+    element.attr("data-off", "danger");
+    element.attr("data-off-label", "aus");
+    element.bootstrapSwitch();
+
+    self.state = ko.createObserable(function (newValue) {
+        element.bootstrapSwitch('setState', newValue);
     });
-});
+    
+    element.on('switch-change', function (e, data) {
+        self.state(data.value);
+    });
+    
+    self.state(initalState);
+}
+
+function createSwitches() {
+    var switches = [];
+    $('input[type=checkbox]').each(function(){
+        var element = $(this);
+        switches.push( new Switch(element, true) );
+    });
+    return switches;
+}
 $(function () {
  
      function DashboardViewModel(){
         var self = this;
         
         self.colorMixer = new ColorMixer(128, 128, 128);
+        self.switches = createSwitches();
     }
     
     var viewModel = new DashboardViewModel();

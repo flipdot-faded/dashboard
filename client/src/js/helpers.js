@@ -1,9 +1,6 @@
 $(function(){
-    ko.createObserable = function(defaultValue, valueChangedHandler){
-        
-        if(typeof(defaultValue) == 'function') valueChangedHandler = defaultValue;
-        
-        var observable = ko.observable(defaultValue);
+    ko.createObserable = function(valueChangedHandler){
+        var observable = ko.observable();
         observable.subscribe(valueChangedHandler);
         return observable;
     }
