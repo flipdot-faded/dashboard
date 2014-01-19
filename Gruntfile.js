@@ -21,8 +21,8 @@ module.exports = function (grunt) {
                     'client/src/js/radioList.js',
                     'client/src/js/radioControl.js',
                     'client/src/js/socket.js',
-                    'client/src/js/viewModel.js',
                     'client/src/js/postProcessDom.js',
+                    'client/src/js/viewModel.js',
                 ],
                 dest: 'client/public/js/app.js'
             }

@@ -182,34 +182,14 @@ function Socket() {
             args: args
         }));
     };
-}
-$(function () {
- 
-     function DashboardViewModel(){
-        var self = this;
-        
-        self.colorMixer = new ColorMixer(128, 128, 128);
-        
-        self.switches = [
-            new Switch('Schwarzlicht', 1, true),
-            new Switch('Raumlicht', 2, false),
-            new Switch('Bunte Lampe', 3, true),
-        ]
-        
-        self.radioList = new RadioList([
-            new RadioEntry('Antenne Hackerspace', 1),
-            new RadioEntry('NSA.fm', 2),
-        ]);
-        
-        self.radioControl = new RadioControl();
-        self.socket = new Socket();
-    }
     
-    var viewModel = new DashboardViewModel();
-    ko.applyBindings(viewModel);
-    window.viewModel = viewModel;
-});
-$(function(){
+    self.onConfig = function (callback) {
+        socket.on('spaceConfig', function (config) {
+            callback(config);
+        });
+    }
+}
+function postProcessDom(){
     var switchIndex = 0;
     $('input[type=checkbox]').each(function(){
         var element = $(this);
@@ -223,4 +203,38 @@ $(function(){
         viewModel.switches[switchIndex].attachElement(element);
         switchIndex++;
     });
+};
+$(function () {
+    function DashboardViewModel(){
+        var self = this;
+        
+        self.socket = new Socket();
+        self.onReady;
+        self.socket.onConfig(function (config) {
+            self.colorMixer = new ColorMixer(
+                config.colorMixer.R,
+                config.colorMixer.G,
+                config.colorMixer.B);
+        
+            self.switches = _.map(config.switches, function (s) {
+                return new Switch(s.name, s.id, s.state);
+            });
+            
+            self.radioList = new RadioList(_.map(config.radioList,function (r) {
+                return new RadioEntry(r.name, r.id);
+            }));
+            
+            self.radioControl = new RadioControl();
+            
+            if(self.onReady) self.onReady();
+        });
+    }
+    
+    var viewModel = new DashboardViewModel();
+    viewModel.onReady = function () {
+        ko.applyBindings(viewModel);
+        window.viewModel = viewModel;
+        
+        postProcessDom();
+    };
 });

@@ -10,4 +10,10 @@ function Socket() {
             args: args
         }));
     };
+    
+    self.onConfig = function (callback) {
+        socket.on('spaceConfig', function (config) {
+            callback(config);
+        });
+    }
 }

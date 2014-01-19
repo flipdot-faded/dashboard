@@ -1,4 +1,4 @@
-$(function(){
+function postProcessDom(){
     var switchIndex = 0;
     $('input[type=checkbox]').each(function(){
         var element = $(this);
@@ -12,4 +12,4 @@ $(function(){
         viewModel.switches[switchIndex].attachElement(element);
         switchIndex++;
     });
-});
+};
