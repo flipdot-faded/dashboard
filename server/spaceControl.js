@@ -1,34 +1,46 @@
 var request = require('request');
 
-function RadioControl(spaceControl) {
+function RadioControl(sender) {
     var self = this;
     
     var radioId;
     
     self.increaseVolume = function () {
-        console.log("louder");
+        sender.send({
+            mixer_control: "laut"
+        });
     };
     
     self.decreaseVolume = function () {
-        console.log("quieter");
+        sender.send({
+            mixer_control: "leise"
+        });
     };
     
     self.selectedRadio = function (radioId) {
         if(radioId) radioId = radioId;
-        console.log('now playing: ' + radioId);
+        
+        sender.send({
+            radio: radioId
+        });
+        
         return radioId;
     };
     
     self.stopRadio = function () {
-        console.log('stopping radio');
+        sender.send({
+            radio_control: 'stop'
+        });
     };
     
     self.startRadio = function () {
-        console.log('starting radio');
+        sender.send({
+            radio_control: 'play'
+        });
     };
 }
 
-function ColorMixer (spaceControl) {
+function ColorMixer (sender) {
     var self = this;
     
     var r, g, b;
@@ -49,26 +61,44 @@ function ColorMixer (spaceControl) {
     };
 }
 
-function ElectricSocketControl(spaceControl) {
+function ElectricSocketControl(houseCode, sender) {
     var self = this;
     
     var sockets = {};
     
     self.socketState = function (args) {
         if(args.socketState) sockets[args.socketId] = args.socketState;
-        console.log(JSON.stringify(args))
+        
+        sender.send({
+            hauscode: houseCode,
+            dose: args.socketId,
+            status: args.socketState ? 1 : 0
+        });
+        
         return sockets[args.socketId];
-    }
+    };
 }
 
-function SpaceControl(server){
+function SpaceControl(server, port, houseCode){
     var self = this;
     
     self.server = server;
     
-    self.radioControl = new RadioControl(self);
-    self.colorMixer = new ColorMixer(self);
-    self.electricSocketControl = new ElectricSocketControl(self);
+    var sender = {
+        send: function (values) {
+            var options = {
+                url: 'http://'+self.server+'/remote_control.php',
+                qs: values
+            };
+            request(options, function (err, res, body) {
+                if(err) console.log(err);
+            });
+        }
+    };
+    
+    self.radioControl = new RadioControl(sender);
+    self.colorMixer = new ColorMixer(sender);
+    self.electricSocketControl = new ElectricSocketControl(houseCode, sender);
 }
 
 module.exports = SpaceControl;

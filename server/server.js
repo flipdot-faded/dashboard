@@ -14,7 +14,10 @@ app.use('/js', express.static('client/public/js'));
 app.use('/img', express.static('client/public/img'));
 app.use('/fonts', express.static('client/public/fonts'));
 
-var spaceControl = new SpaceControl("192.168.2.222");
+var spaceControl = new SpaceControl(
+    /* server ip */   '192.168.2.222',
+    /* server port */ '80',
+    /* hauscode */    '10011');
 
 io.sockets.on('connection', function (socket) {
     socket.emit("spaceConfig", spaceConfig);
