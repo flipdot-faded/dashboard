@@ -5,7 +5,7 @@ function RadioEntry(label, streamId) {
         
     });
     
-    self.streamId = ko.observable();
+    self.streamId = ko.observable(streamId);
     self.isSelected = ko.observable();
     
     self.attachElement = function (element) {
@@ -26,7 +26,12 @@ function RadioList(radioEntries) {
     self.entries = ko.observableArray(radioEntries);
 
     function makeUniqueSelection(selected) {
-        if(!selected.isSelected()) return;
+        
+        if(selected.isSelected()) {
+            if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
+        } else {
+            return;
+        }
 
         _.each(self.entries(), function (e) {
             if(e !== selected && e.isSelected()) {

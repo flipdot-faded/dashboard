@@ -38,16 +38,22 @@ function ColorMixer(defaultR, defaultG, defaultB){
     self.R = ko.createObserable(function (newValue) {
         sliderR.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'R', newValue);
     });
     
     self.G = ko.createObserable(function (newValue) {
         sliderG.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'G', newValue);
     });
     
     self.B = ko.createObserable(function (newValue) {
         sliderB.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'B', newValue);
     });
     
     // set the default values
@@ -55,12 +61,17 @@ function ColorMixer(defaultR, defaultG, defaultB){
     self.G(defaultG);
     self.B(defaultB);
 }
-function Switch(label, initalState) {
+function Switch(label, id, initalState) {
     var self = this;
 
     self.attachElement = function (element) {
         self.state = ko.createObserable(function (newValue) {
             element.bootstrapSwitch('setState', newValue);
+            
+            if(window.viewModel) viewModel.socket.call('electricSocketControl', 'socketState', {
+                socketId: self.id(),
+                socketState: newValue
+            });
         });
         
         element.on('switch-change', function (e, data) {
@@ -71,6 +82,7 @@ function Switch(label, initalState) {
     }
     
     self.label = ko.observable(label);
+    self.id = ko.observable(id);
 }
 function RadioEntry(label, streamId) {
     var self = this;
@@ -79,7 +91,7 @@ function RadioEntry(label, streamId) {
         
     });
     
-    self.streamId = ko.observable();
+    self.streamId = ko.observable(streamId);
     self.isSelected = ko.observable();
     
     self.attachElement = function (element) {
@@ -100,7 +112,12 @@ function RadioList(radioEntries) {
     self.entries = ko.observableArray(radioEntries);
 
     function makeUniqueSelection(selected) {
-        if(!selected.isSelected()) return;
+        
+        if(selected.isSelected()) {
+            if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
+        } else {
+            return;
+        }
 
         _.each(self.entries(), function (e) {
             if(e !== selected && e.isSelected()) {
@@ -126,11 +143,11 @@ function RadioControl() {
     });
     
     function startRadio() {
-        console.log('starting radio');
+        if(window.viewModel) viewModel.socket.call('radioControl', 'startRadio');
     }
     
     function stopRadio() {
-        console.log('stopping radio');
+        if(window.viewModel) viewModel.socket.call('radioControl', 'stopRadio');
     }
     
     self.startStop = function () {
@@ -146,11 +163,24 @@ function RadioControl() {
     };
     
     self.increaseVolume = function () {
-        console.log("louder");
+        if(window.viewModel) viewModel.socket.call('radioControl', 'increaseVolume');
     };
     
     self.decreaseVolume = function () {
-        console.log("quieter");
+        if(window.viewModel) viewModel.socket.call('radioControl', 'decreaseVolume');
+    };
+}
+function Socket() {
+    var self = this;
+    
+    var socket = io.connect();
+    
+    self.call = function (controller, command, args) {
+        socket.send(JSON.stringify({
+            controller: controller,
+            command: command,
+            args: args
+        }));
     };
 }
 $(function () {
@@ -161,17 +191,18 @@ $(function () {
         self.colorMixer = new ColorMixer(128, 128, 128);
         
         self.switches = [
-            new Switch('Schwarzlicht', true),
-            new Switch('Raumlicht', false),
-            new Switch('Bunte Lampe', true),
+            new Switch('Schwarzlicht', 1, true),
+            new Switch('Raumlicht', 2, false),
+            new Switch('Bunte Lampe', 3, true),
         ]
         
         self.radioList = new RadioList([
-            new RadioEntry('Antenne Hackerspace'),
-            new RadioEntry('NSA.fm'),
+            new RadioEntry('Antenne Hackerspace', 1),
+            new RadioEntry('NSA.fm', 2),
         ]);
         
         self.radioControl = new RadioControl();
+        self.socket = new Socket();
     }
     
     var viewModel = new DashboardViewModel();

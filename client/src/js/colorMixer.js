@@ -31,16 +31,22 @@ function ColorMixer(defaultR, defaultG, defaultB){
     self.R = ko.createObserable(function (newValue) {
         sliderR.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'R', newValue);
     });
     
     self.G = ko.createObserable(function (newValue) {
         sliderG.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'G', newValue);
     });
     
     self.B = ko.createObserable(function (newValue) {
         sliderB.setValue(newValue);
         updateColorResult();
+        
+        if(window.viewModel) viewModel.socket.call('colorMixer', 'B', newValue);
     });
     
     // set the default values

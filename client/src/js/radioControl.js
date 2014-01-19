@@ -7,11 +7,11 @@ function RadioControl() {
     });
     
     function startRadio() {
-        console.log('starting radio');
+        if(window.viewModel) viewModel.socket.call('radioControl', 'startRadio');
     }
     
     function stopRadio() {
-        console.log('stopping radio');
+        if(window.viewModel) viewModel.socket.call('radioControl', 'stopRadio');
     }
     
     self.startStop = function () {
@@ -27,10 +27,10 @@ function RadioControl() {
     };
     
     self.increaseVolume = function () {
-        console.log("louder");
+        if(window.viewModel) viewModel.socket.call('radioControl', 'increaseVolume');
     };
     
     self.decreaseVolume = function () {
-        console.log("quieter");
+        if(window.viewModel) viewModel.socket.call('radioControl', 'decreaseVolume');
     };
 }
