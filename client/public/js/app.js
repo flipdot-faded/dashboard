@@ -115,6 +115,11 @@ function RadioList(radioEntries) {
         
         if(selected.isSelected()) {
             if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
+            
+            // ensure we're on play mode
+            if(window.viewModel && !viewModel.radioControl.isPlaying()) {
+                viewModel.radioControl.startStop();
+            }
         } else {
             return;
         }
