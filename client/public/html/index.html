@@ -83,18 +83,12 @@
                 </div>
                 <div class="col-sm-4 gridInnerPadLeft-sm">
                     <h2>Steckdosen</h2>
+                    <!-- ko foreach: switches -->
                     <p>
                         <input type="checkbox" />
-                        <span class="pad-Left">Schwarzlicht</span>
+                        <span data-bind="text: label" class="pad-Left"></span>
                     </p>
-                    <p>
-                        <input type="checkbox" />
-                        <span class="pad-Left">Raumlicht</span>
-                    </p>
-                    <p>
-                        <input type="checkbox" />
-                        <span class="pad-Left">Bunte Lampe</span>
-                    </p>
+                    <!-- /ko -->
                 </div>
             </div>
         </div>

@@ -55,33 +55,22 @@ function ColorMixer(defaultR, defaultG, defaultB){
     self.G(defaultG);
     self.B(defaultB);
 }
-function Switch(element, initalState) {
+function Switch(label, initalState) {
     var self = this;
-    
-    element.attr("data-on", "success");
-    element.attr("data-on-label", "ein");
-    element.attr("data-off", "danger");
-    element.attr("data-off-label", "aus");
-    element.bootstrapSwitch();
 
-    self.state = ko.createObserable(function (newValue) {
-        element.bootstrapSwitch('setState', newValue);
-    });
+    self.attachElement = function (element) {
+        self.state = ko.createObserable(function (newValue) {
+            element.bootstrapSwitch('setState', newValue);
+        });
+        
+        element.on('switch-change', function (e, data) {
+            self.state(data.value);
+        });
     
-    element.on('switch-change', function (e, data) {
-        self.state(data.value);
-    });
+        self.state(initalState);
+    }
     
-    self.state(initalState);
-}
-
-function createSwitches() {
-    var switches = [];
-    $('input[type=checkbox]').each(function(){
-        var element = $(this);
-        switches.push( new Switch(element, true) );
-    });
-    return switches;
+    self.label = ko.observable(label);
 }
 $(function () {
  
@@ -89,10 +78,30 @@ $(function () {
         var self = this;
         
         self.colorMixer = new ColorMixer(128, 128, 128);
-        self.switches = createSwitches();
+        
+        self.switches = [
+            new Switch('Schwarzlicht', true),
+            new Switch('Raumlicht', false),
+            new Switch('Bunte Lampe', true),
+        ]
     }
     
     var viewModel = new DashboardViewModel();
     ko.applyBindings(viewModel);
     window.viewModel = viewModel;
+});
+$(function(){
+    var switchIndex = 0;
+    $('input[type=checkbox]').each(function(){
+        var element = $(this);
+        
+        element.attr("data-on", "success");
+        element.attr("data-on-label", "ein");
+        element.attr("data-off", "danger");
+        element.attr("data-off-label", "aus");
+        element.bootstrapSwitch();
+        
+        viewModel.switches[switchIndex].attachElement(element);
+        switchIndex++;
+    });
 });

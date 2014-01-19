@@ -19,6 +19,7 @@ module.exports = function (grunt) {
                     'client/src/js/colorMixer.js',
                     'client/src/js/switches.js',
                     'client/src/js/viewModel.js',
+                    'client/src/js/postProcessDom.js',
                 ],
                 dest: 'client/public/js/app.js'
             }

@@ -4,7 +4,12 @@ $(function () {
         var self = this;
         
         self.colorMixer = new ColorMixer(128, 128, 128);
-        self.switches = createSwitches();
+        
+        self.switches = [
+            new Switch('Schwarzlicht', true),
+            new Switch('Raumlicht', false),
+            new Switch('Bunte Lampe', true),
+        ]
     }
     
     var viewModel = new DashboardViewModel();
