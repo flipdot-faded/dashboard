@@ -15,6 +15,8 @@ $(function () {
             new RadioEntry('Antenne Hackerspace'),
             new RadioEntry('NSA.fm'),
         ]);
+        
+        self.radioControl = new RadioControl();
     }
     
     var viewModel = new DashboardViewModel();

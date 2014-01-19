@@ -34,26 +34,21 @@
                     </div>
                     
                     <div class="pad-top row">
-                        <div class="col-xs-6">
-                            <button class="btn btn-block">
-                                <i class="fa fa-play-circle-o fa-5x"></i>
-                            </button>
-                        </div>
-                        <div class="col-xs-6">
-                            <button class="btn btn-block">
-                                <i class="fa fa-pause fa-5x"></i>
+                        <div class="col-xs-12">
+                            <button class="btn btn-block" data-bind="click: radioControl.startStop">
+                                <i class="fa fa-5x" data-bind="css: radioControl.playingIcon"></i>
                             </button>
                         </div>
                     </div>
                     
                     <div class="pad-top row">
                         <div class="col-xs-6">
-                            <button class="btn btn-block">
+                            <button class="btn btn-block" data-bind="click: radioControl.decreaseVolume">
                                 <i class="fa fa-volume-down fa-3x"></i>
                             </button>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-block">
+                            <button class="btn btn-block" data-bind="click: radioControl.increaseVolume">
                                 <i class="fa fa-volume-up fa-3x"></i>
                             </button>
                         </div>
