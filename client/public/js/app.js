@@ -72,6 +72,51 @@ function Switch(label, initalState) {
     
     self.label = ko.observable(label);
 }
+function RadioEntry(label, streamId) {
+    var self = this;
+    
+    self.label = ko.createObserable(function (newValue) {
+        
+    });
+    
+    self.streamId = ko.observable();
+    self.isSelected = ko.observable();
+    
+    self.attachElement = function (element) {
+        
+    };
+    
+    self.switchSelected = function () {
+        var oldVal = self.isSelected();
+        self.isSelected(!oldVal);
+    }
+    
+    self.label(label);
+}
+
+function RadioList(radioEntries) {
+    var self = this;
+    
+    self.entries = ko.observableArray(radioEntries);
+
+    function makeUniqueSelection(selected) {
+        if(!selected.isSelected()) return;
+
+        _.each(self.entries(), function (e) {
+            if(e !== selected && e.isSelected()) {
+                e.isSelected(false);
+            }
+        });
+    }
+    
+    _.each(self.entries(), function (e) {
+        e.isSelected.subscribe(function () { makeUniqueSelection(e) });
+    })
+    
+    self.getSelected = function () {
+        return _.find(self.entries(), function (e) { return e.isSelected() });
+    }
+}
 $(function () {
  
      function DashboardViewModel(){
@@ -84,6 +129,11 @@ $(function () {
             new Switch('Raumlicht', false),
             new Switch('Bunte Lampe', true),
         ]
+        
+        self.radioList = new RadioList([
+            new RadioEntry('Antenne Hackerspace'),
+            new RadioEntry('NSA.fm'),
+        ]);
     }
     
     var viewModel = new DashboardViewModel();

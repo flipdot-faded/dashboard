@@ -1,5 +1,9 @@
 @import "../../../thirdParty/bootstrap/less/variables.less";
+@import "../../../thirdParty/bootstrap/less/mixins.less";
 
+// ******************
+// * Simple classes *
+// ******************
 .pad-top {
     margin-top: 15px;
 }
@@ -21,6 +25,19 @@
 .has-switch {
     height: 30px;
 }
+
+.radioScrollbox {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.noSelect {
+    .user-select('none');
+}
+
+// *****************
+// * slider styles *
+// *****************
 
 @sliderLighen: 30%;
 @slider_red: red;
@@ -63,6 +80,10 @@
         background: @slider_blue;
     }
 }
+
+// **********************
+// * responsive classes *
+// **********************
 
 @media (max-width: @screen-sm-min) {
     .padLeft-sm {

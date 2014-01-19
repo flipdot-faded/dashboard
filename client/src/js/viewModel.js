@@ -10,6 +10,11 @@ $(function () {
             new Switch('Raumlicht', false),
             new Switch('Bunte Lampe', true),
         ]
+        
+        self.radioList = new RadioList([
+            new RadioEntry('Antenne Hackerspace'),
+            new RadioEntry('NSA.fm'),
+        ]);
     }
     
     var viewModel = new DashboardViewModel();
