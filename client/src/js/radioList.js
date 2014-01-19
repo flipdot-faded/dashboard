@@ -25,7 +25,7 @@ function RadioList(radioEntries) {
     
     self.entries = ko.observableArray(radioEntries);
 
-    var selectionChanged = function () {
+    var selectionChanged = function (selected) {
         if(window.viewModel) viewModel.socket.call('radioControl', 'selectedRadio', selected.streamId());
             
         // ensure we're on play mode
@@ -37,7 +37,7 @@ function RadioList(radioEntries) {
     function makeUniqueSelection(selected) {
         
         if(selected.isSelected()) {
-            self.selectionChanged();
+            selectionChanged(selected);
         } else {
             return;
         }
