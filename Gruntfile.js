@@ -14,7 +14,12 @@ module.exports = function (grunt) {
         },
         concat: {
             dist: {
-                src: ['client/src/js/colorMixer.js'],
+                src: [
+                    'client/src/js/helpers.js',
+                    'client/src/js/colorMixer.js',
+                    'client/src/js/switches.js',
+                    'client/src/js/viewModel.js',
+                ],
                 dest: 'client/public/js/app.js'
             }
         },
