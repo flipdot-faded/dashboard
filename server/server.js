@@ -8,11 +8,11 @@ var spaceConfig = require(__dirname + '/spaceConfig.js');
 
 app.use(express.json());
 
-app.use('/', express.static('client/public/html'));
-app.use('/css', express.static('client/public/css'));
-app.use('/js', express.static('client/public/js'));
-app.use('/img', express.static('client/public/img'));
-app.use('/fonts', express.static('client/public/fonts'));
+app.use('/', express.static(__dirname + '/../client/public/html'));
+app.use('/css', express.static(__dirname + '/../client/public/css'));
+app.use('/js', express.static(__dirname + '/../client/public/js'));
+app.use('/img', express.static(__dirname + '/../client/public/img'));
+app.use('/fonts', express.static(__dirname + '/../client/public/fonts'));
 
 var spaceControl = new SpaceControl(
     /* server ip */   '192.168.3.42',
