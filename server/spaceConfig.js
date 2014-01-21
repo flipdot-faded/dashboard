@@ -6,18 +6,8 @@ module.exports = {
     },
     switches: [
         {
-            id: 1,
-            name: 'Schwarzlicht',
-            state: true
-        },
-        {
-            id: 2,
-            name: 'Raumlicht',
-            state: false
-        },
-        {
-            id: 3,
-            name: 'Bunte Lampe',
+            id: 5,
+            name: 'Lampen',
             state: true
         },
     ],
