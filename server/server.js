@@ -15,7 +15,7 @@ app.use('/img', express.static('client/public/img'));
 app.use('/fonts', express.static('client/public/fonts'));
 
 var spaceControl = new SpaceControl(
-    /* server ip */   '192.168.2.222',
+    /* server ip */   '192.168.3.42',
     /* server port */ '80',
     /* hauscode */    '10011');
 

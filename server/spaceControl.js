@@ -87,7 +87,7 @@ function SpaceControl(server, port, houseCode){
     var sender = {
         send: function (values) {
             var options = {
-                url: 'http://'+self.server+'/remote_control.php',
+                url: 'http://'+self.server+'/rc2/remote_control.php',
                 qs: values
             };
             request(options, function (err, res, body) {
